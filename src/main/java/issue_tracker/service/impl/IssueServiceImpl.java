@@ -1,6 +1,7 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.Issue;
+import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 import issue_tracker.repository.IssueRepo;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -62,6 +64,25 @@ public class IssueServiceImpl implements IssueService {
         issue.setType(null);
 
         modelMapper.map(issueDto, issue);
+
+        return issueRepo.save(issue);
+    }
+
+    @Override
+    public Issue assign(AssignIssueDto issueDto) {
+        Issue issue = findById(issueDto.getId());
+        modelMapper.map(issueDto, issue);
+
+        issue.setAssignedAt(LocalDateTime.now());
+
+        return issueRepo.save(issue);
+    }
+
+    @Override
+    public Issue resolve(Long id) {
+        Issue issue = findById(id);
+
+        issue.setResolvedAt(LocalDateTime.now());
 
         return issueRepo.save(issue);
     }

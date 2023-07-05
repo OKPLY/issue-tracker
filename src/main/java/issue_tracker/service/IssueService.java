@@ -1,6 +1,7 @@
 package issue_tracker.service;
 
 import issue_tracker.domain.Issue;
+import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 
@@ -18,6 +19,10 @@ public interface IssueService {
     Issue create(Long parentIssueId, CreateIssueDto issueDto);
 
     Issue update(UpdateIssueDto issueDto);
+
+    Issue assign(AssignIssueDto issueDto);
+
+    Issue resolve(Long id);
 
     Issue delete(Long id);
 }

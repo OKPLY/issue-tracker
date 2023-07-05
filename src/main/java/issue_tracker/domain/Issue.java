@@ -18,7 +18,7 @@ import java.util.List;
 @Where(clause = "deleted=false")
 public class Issue {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(
@@ -35,7 +35,6 @@ public class Issue {
             nullable = false
     )
     @CreationTimestamp
-    @JsonIgnore
     private LocalDateTime createdAt;
 
     @Column(
@@ -71,6 +70,9 @@ public class Issue {
     private User creator;
 
     @ManyToOne
+    private User reviewer;
+
+    @ManyToOne
     @JoinColumn(name = "assigned_to")
     @JsonManagedReference
     private User resolver;
@@ -86,5 +88,9 @@ public class Issue {
     @ManyToOne
     @JsonManagedReference
     private Type type;
+
+    private LocalDateTime assignedAt;
+
+    private LocalDateTime resolvedAt;
 
 }

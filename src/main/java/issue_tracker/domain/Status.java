@@ -16,7 +16,7 @@ import java.util.Date;
 @Where(clause = "deleted=false")
 public class Status {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(

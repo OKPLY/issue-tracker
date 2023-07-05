@@ -16,7 +16,7 @@ import java.util.List;
 @Where(clause = "deleted=false")
 public class Type {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(

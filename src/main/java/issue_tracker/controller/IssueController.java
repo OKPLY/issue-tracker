@@ -3,6 +3,7 @@ package issue_tracker.controller;
 import issue_tracker.domain.Comment;
 import issue_tracker.domain.Issue;
 import issue_tracker.dto.comment.CreateCommentDto;
+import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 import issue_tracker.service.CommentService;
@@ -45,6 +46,17 @@ public class IssueController {
     @PostMapping("{id}/issues")
     public ResponseEntity<Issue> createByParent(@PathVariable Long id, @RequestBody CreateIssueDto issueDto) {
         return new ResponseEntity<>(issueService.create(id, issueDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("{id}/assign")
+    public ResponseEntity<Issue> assign(@PathVariable Long id, @RequestBody AssignIssueDto issueDto) {
+        issueDto.setId(id);
+        return ResponseEntity.ok(issueService.assign(issueDto));
+    }
+
+    @PostMapping("{id}/resolve")
+    public ResponseEntity<Issue> resolve(@PathVariable Long id) {
+        return ResponseEntity.ok(issueService.resolve(id));
     }
 
     @PutMapping("{id}")

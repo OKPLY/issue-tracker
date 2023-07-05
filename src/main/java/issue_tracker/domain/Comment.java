@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Where(clause = "deleted=false")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(
