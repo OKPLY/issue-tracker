@@ -2,18 +2,21 @@ package issue_tracker.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
 @Data
 @Entity
+@Where(clause = "deleted=false")
 public class Issue {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @Column(
             name = "title",
@@ -26,15 +29,15 @@ public class Issue {
 
     @ManyToOne
     @JoinColumn(
-            name = "status",
-            nullable = false
+            name = "status"//,
+            //nullable = false
     )
     private Status status;
 
     @ManyToOne
     @JoinColumn(
-            name = "created_by",
-            nullable = false
+            name = "created_by"//,
+            //nullable = false
     )
     @JsonBackReference
     private User creator;
@@ -55,5 +58,8 @@ public class Issue {
     @ManyToOne
     @JsonManagedReference
     private Type type;
+
+    @JsonIgnore
+    private boolean deleted = false;
 
 }
