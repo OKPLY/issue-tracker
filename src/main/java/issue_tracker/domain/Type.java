@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -23,11 +26,32 @@ public class Type {
     )
     private String name;
 
+    @Column(
+            name = "created_at",
+            nullable = false
+    )
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime createdAt;
+
+    @Column(
+            name = "updated_at",
+            nullable = false
+    )
+    @UpdateTimestamp
+    @JsonIgnore
+    private LocalDateTime updatedAt;
+
+    @Column(
+            name = "deleted",
+            nullable = false,
+            columnDefinition = "boolean default false"
+    )
+    @JsonIgnore
+    private Boolean deleted = false;
+
     @OneToMany(mappedBy = "type")
     @JsonBackReference
     private List<Issue> issues;
 
-    @JsonIgnore
-    @Column(columnDefinition = "boolean default false")
-    private boolean deleted;
 }

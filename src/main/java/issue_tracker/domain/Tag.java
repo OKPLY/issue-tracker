@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
@@ -25,12 +27,33 @@ public class Tag {
     )
     private String name;
 
+    @Column(
+            name = "created_at",
+            nullable = false
+    )
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime createdAt;
+
+    @Column(
+            name = "updated_at",
+            nullable = false
+    )
+    @UpdateTimestamp
+    @JsonIgnore
+    private LocalDateTime updatedAt;
+
+    @Column(
+            name = "deleted",
+            nullable = false,
+            columnDefinition = "boolean default false"
+    )
+    @JsonIgnore
+    private Boolean deleted = false;
+
+
     @ManyToMany(mappedBy = "tags")
     @JsonBackReference
     private List<Issue> issues;
 
-    @JsonIgnore
-    private boolean deleted = false;
-
-    private LocalDateTime createdAt = LocalDateTime.now();
 }

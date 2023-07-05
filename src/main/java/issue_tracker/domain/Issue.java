@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,6 +29,31 @@ public class Issue {
 
     @Column(name = "description")
     private String description;
+
+    @Column(
+            name = "created_at",
+            nullable = false
+    )
+    @CreationTimestamp
+    @JsonIgnore
+    private LocalDateTime createdAt;
+
+    @Column(
+            name = "updated_at",
+            nullable = false
+    )
+    @UpdateTimestamp
+    @JsonIgnore
+    private LocalDateTime updatedAt;
+
+    @Column(
+            name = "deleted",
+            nullable = false,
+            columnDefinition = "boolean default false"
+    )
+    @JsonIgnore
+    private Boolean deleted = false;
+
 
     @ManyToOne
     @JoinColumn(
@@ -49,7 +77,7 @@ public class Issue {
 
     @ManyToOne
     @JoinColumn(name = "parent_issue_id")
-    private Comment parentIssue;
+    private Issue parentIssue;
 
     @ManyToMany
     @JsonManagedReference
@@ -58,8 +86,5 @@ public class Issue {
     @ManyToOne
     @JsonManagedReference
     private Type type;
-
-    @JsonIgnore
-    private boolean deleted = false;
 
 }
