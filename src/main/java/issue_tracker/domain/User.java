@@ -64,11 +64,11 @@ public class User {
 
 
     @OneToMany(mappedBy = "creator")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Issue> created_issues;
 
     @OneToMany(mappedBy = "resolver")
-    @JsonManagedReference
+    @JsonBackReference
     private List<Issue> assigned_issues;
 
     @ManyToMany()

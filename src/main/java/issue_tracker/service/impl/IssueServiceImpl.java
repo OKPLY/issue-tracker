@@ -36,8 +36,22 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    public List<Issue> findByParentIssueId(Long parentIssueId) {
+        return issueRepo.findAllByParentIssue_Id(parentIssueId);
+    }
+
+    @Override
     public Issue create(CreateIssueDto issueDto) {
         Issue issue = modelMapper.map(issueDto, Issue.class);
+        return issueRepo.save(issue);
+    }
+
+    @Override
+    public Issue create(Long parentIssueId, CreateIssueDto issueDto) {
+        Issue parentIssue = findById(parentIssueId);
+        Issue issue = modelMapper.map(issueDto, Issue.class);
+        issue.setParentIssue(parentIssue);
+
         return issueRepo.save(issue);
     }
 

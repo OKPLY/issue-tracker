@@ -5,15 +5,17 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Where(clause = "deleted=false")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id;
+    private Long id;
 
     @Column(
             name = "comment_text",
@@ -46,18 +48,18 @@ public class Comment {
     private Boolean deleted = false;
 
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(
-            name = "issue_id",
-            nullable = false
+            name = "issue_id"//,
+            //nullable = false
     )
     private Issue issue;
 
     @ManyToOne
     @JoinColumn(
-            name = "user_id",
-            nullable = false
+            name = "user_id"//,
+            //nullable = false
     )
     private User user;
 
