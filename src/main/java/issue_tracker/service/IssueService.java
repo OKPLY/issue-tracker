@@ -11,7 +11,11 @@ public interface IssueService {
 
     Issue findById(Long id);
 
+    List<Issue> findByParentIssueId(Long parentIssueId);
+
     Issue create(CreateIssueDto issueDto);
+
+    Issue create(Long parentIssueId, CreateIssueDto issueDto);
 
     Issue update(UpdateIssueDto issueDto);
 

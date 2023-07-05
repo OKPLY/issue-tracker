@@ -67,12 +67,12 @@ public class Issue {
             name = "created_by"//,
             //nullable = false
     )
-    @JsonBackReference
+    @JsonManagedReference
     private User creator;
 
     @ManyToOne
     @JoinColumn(name = "assigned_to")
-    @JsonBackReference
+    @JsonManagedReference
     private User resolver;
 
     @ManyToOne

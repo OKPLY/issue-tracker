@@ -1,6 +1,7 @@
 package issue_tracker.advice;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,12 @@ public class AppExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ExceptionMessage handleIllegalArgumentException(IllegalArgumentException ex) {
+        return new ExceptionMessage(ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ExceptionMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         return new ExceptionMessage(ex.getMessage());
     }
 }
