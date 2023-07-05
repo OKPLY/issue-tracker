@@ -30,6 +30,9 @@ public class Issue {
     @Column(name = "description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @Column(
             name = "created_at",
             nullable = false
@@ -52,14 +55,6 @@ public class Issue {
     )
     @JsonIgnore
     private Boolean deleted = false;
-
-
-    @ManyToOne
-    @JoinColumn(
-            name = "status"//,
-            //nullable = false
-    )
-    private Status status;
 
     @ManyToOne
     @JoinColumn(
