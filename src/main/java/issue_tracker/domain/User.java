@@ -73,13 +73,14 @@ public class User implements UserDetails {
     private Boolean deleted = false;
 
 
-    @OneToMany(mappedBy = "creator")
-    @JsonBackReference
-    private List<Issue> created_issues;
-
-    @OneToMany(mappedBy = "resolver")
-    @JsonBackReference
-    private List<Issue> assigned_issues;
+    // TODO: Either make this eager or remove it. I don't think it is necessary so we could remove it
+//    @OneToMany(mappedBy = "creator")
+//    @JsonBackReference
+//    private List<Issue> created_issues;
+//
+//    @OneToMany(mappedBy = "resolver")
+//    @JsonBackReference
+//    private List<Issue> assigned_issues;
 
     @ManyToMany(
             cascade = CascadeType.ALL,

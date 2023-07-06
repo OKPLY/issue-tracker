@@ -71,7 +71,6 @@ public class AuthenticationService {
 
     }
 
-    @Transactional
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

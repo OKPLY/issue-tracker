@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -24,35 +25,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests(
-                        (authorize) -> {
-                            try {
-                                authorize
-                                        .requestMatchers("/auth/**")
-                                        .permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/issues")
-                                        .hasAuthority("canView")
-                                        .requestMatchers(HttpMethod.POST, "/issues")
-                                        .hasAuthority("canCreate")
-                                        .anyRequest()
-                                        .authenticated()
-                                        .and()
-                                        .sessionManagement()
-                                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                                        .and()
-                                        .authenticationProvider(authenticationProvider)
-                                        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                );
+        // Maggies code
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests ->
+                        authorizeRequests
+                                .requestMatchers("/swagger-ui/**",
+                                        "/swagger-resources/*",
+                                        "/v3/api-docs/**")
+                                .permitAll()
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/issues")
+                                .hasAnyAuthority("canView")
+                                .requestMatchers(HttpMethod.POST, "/issues")
+                                .hasAnyAuthority("canCreate")
+                                .anyRequest()
+                                .authenticated())
+                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-
-
+        http.authenticationProvider(authenticationProvider);
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
 

@@ -12,9 +12,5 @@ public class IssueTrackerApplication {
 		SpringApplication.run(IssueTrackerApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
 
 }
