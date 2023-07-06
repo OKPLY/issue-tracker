@@ -8,9 +8,11 @@ import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 import issue_tracker.service.CommentService;
 import issue_tracker.service.IssueService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class IssueController {
 
     @GetMapping
     public ResponseEntity<List<Issue>> findAll() {
+        System.out.println("here");
         return ResponseEntity.ok(issueService.findAll());
     }
 

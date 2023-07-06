@@ -47,9 +47,4 @@ public class Permission {
     )
     @JsonIgnore
     private Boolean deleted = false;
-
-
-    @ManyToMany
-    @JsonBackReference
-    private List<Role> roles;
 }
