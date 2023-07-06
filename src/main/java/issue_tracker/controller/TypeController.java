@@ -1,5 +1,6 @@
 package issue_tracker.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Issue;
 import issue_tracker.domain.Type;
 import issue_tracker.dto.type.CreateTypeDto;
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/types")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class TypeController {
 
     private final TypeService typeService;

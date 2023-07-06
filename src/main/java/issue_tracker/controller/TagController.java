@@ -1,5 +1,6 @@
 package issue_tracker.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Tag;
 import issue_tracker.dto.tag.CreateTagDto;
 import issue_tracker.dto.tag.UpdateTagDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/tags")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class TagController {
 
     private final TagService tagService;

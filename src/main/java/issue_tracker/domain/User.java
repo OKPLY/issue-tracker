@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -71,6 +72,10 @@ public class User {
     @JsonBackReference
     private List<Issue> assigned_issues;
 
-    @ManyToMany()
-    private List<Role> roles;
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles = new ArrayList<>();
+     public void addRole(Role role){
+         roles.add(role);
+     }
 }
