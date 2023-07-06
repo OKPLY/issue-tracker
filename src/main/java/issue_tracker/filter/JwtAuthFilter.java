@@ -1,49 +1,40 @@
 package issue_tracker.filter;
 
-import issue_tracker.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import issue_tracker.utility.JwtUtil;
 
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
-    private final UserDetailsService userDetailsService;
 
-    public JwtAuthFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(">>>>> hereeeee");
 
         var token = extractTokenFromRequest(request);
-
         if (token != null && jwtUtil.validateToken(token)) {
+
             SecurityContextHolder.getContext().setAuthentication(jwtUtil.getAuthentication(token));
         }
-
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * Helper method
-     *
-     * @param request
-     * @return
-     */
+
     public String extractTokenFromRequest(HttpServletRequest request) {
         final String authorizationHeader = request.getHeader("Authorization");
 
@@ -52,5 +43,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return token;
         }
         return null;
+    }
+    @Override
+    public void destroy() {
     }
 }

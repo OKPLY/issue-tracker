@@ -1,5 +1,6 @@
 package issue_tracker.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Comment;
 import issue_tracker.dto.comment.CreateCommentDto;
 import issue_tracker.dto.comment.UpdateCommentDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("comments")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class CommentController {
 
     private final CommentService commentService;

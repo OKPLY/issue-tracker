@@ -1,5 +1,6 @@
 package issue_tracker.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Status;
 import issue_tracker.dto.status.CreateStatusDto;
 import issue_tracker.dto.status.UpdateStatusDto;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/status")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class StatusController {
 
     private final StatusService statusService;

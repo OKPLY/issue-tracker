@@ -6,7 +6,7 @@ import issue_tracker.domain.dto.UserRequest;
 import issue_tracker.domain.dto.UserResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface AuthService extends UserDetailsService {
+public interface AuthService  {
     UserResponse login(UserRequest loginRequest);
-    UserResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
+//    UserResponse refreshToken(RefreshTokenRequest refreshTokenRequest);
 }
