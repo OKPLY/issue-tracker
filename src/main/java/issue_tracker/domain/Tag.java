@@ -17,7 +17,7 @@ import java.util.List;
 @Where(clause = "deleted=false")
 public class Tag {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(

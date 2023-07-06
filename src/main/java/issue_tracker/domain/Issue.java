@@ -18,7 +18,7 @@ import java.util.List;
 @Where(clause = "deleted=false")
 public class Issue {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(
@@ -30,12 +30,14 @@ public class Issue {
     @Column(name = "description")
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @Column(
             name = "created_at",
             nullable = false
     )
     @CreationTimestamp
-    @JsonIgnore
     private LocalDateTime createdAt;
 
     @Column(
@@ -54,14 +56,6 @@ public class Issue {
     @JsonIgnore
     private Boolean deleted = false;
 
-
-    @ManyToOne
-    @JoinColumn(
-            name = "status"//,
-            //nullable = false
-    )
-    private Status status;
-
     @ManyToOne
     @JoinColumn(
             name = "created_by"//,
@@ -69,6 +63,9 @@ public class Issue {
     )
     @JsonManagedReference
     private User creator;
+
+    @ManyToOne
+    private User reviewer;
 
     @ManyToOne
     @JoinColumn(name = "assigned_to")
@@ -86,5 +83,9 @@ public class Issue {
     @ManyToOne
     @JsonManagedReference
     private Type type;
+
+    private LocalDateTime assignedAt;
+
+    private LocalDateTime resolvedAt;
 
 }
