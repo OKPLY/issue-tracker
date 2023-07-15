@@ -1,7 +1,9 @@
 package issue_tracker.repository;
 
 import issue_tracker.domain.Issue;
+import issue_tracker.domain.User;
 import issue_tracker.dto.aggregation.CreatedDateIssueAggregation;
+import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 import issue_tracker.dto.aggregation.ResolvedDateIssueAggregation;
 import issue_tracker.dto.aggregation.ReviewdDateIssueAggregation;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +26,14 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
 
     @Query("SELECT new issue_tracker.dto.aggregation.ResolvedDateIssueAggregation(i.resolvedAt, COUNT(i)) FROM Issue AS i WHERE i.resolvedAt != NULL GROUP BY i.resolvedAt")
     List<ResolvedDateIssueAggregation> aggregateByResolvedDate();
+
+
+   @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.creator.Id = ?1")
+   Long getCreationAggregate(Long id);
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer.Id = ?1")
+    Long getReviewAggregate(Long id);
+
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.resolver.Id = ?1")
+    Long getResolveAggregate(Long id);
 }
 

@@ -2,12 +2,15 @@ package issue_tracker.service.impl;
 
 import issue_tracker.domain.User;
 import issue_tracker.domain.dto.CreateUser;
+import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
+import issue_tracker.repository.IssueRepo;
 import issue_tracker.repository.RoleRepo;
 import issue_tracker.repository.UserRepo;
 import issue_tracker.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final BCryptPasswordEncoder pwdEncoder;
     private final UserRepo userRepository;
+    private final IssueRepo issueRepo;
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
 
@@ -89,8 +93,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         customUserDetails.setId(user.getId());
 
         return customUserDetails;
+    }
 
+    @Override
+    public CreatedResolvedReviewedAggregate currentUserAggregate(){
+        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long created = issueRepo.getCreationAggregate(user.getId());
+        Long resolved = issueRepo.getResolveAggregate(user.getId());
+        Long reviewed = issueRepo.getReviewAggregate(user.getId());
 
+        return new CreatedResolvedReviewedAggregate(created, resolved, reviewed);
     }
 }
 
