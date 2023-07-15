@@ -3,6 +3,10 @@ package issue_tracker.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Comment;
 import issue_tracker.domain.Issue;
+import issue_tracker.dto.aggregation.CreatedDateIssueAggregation;
+import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
+import issue_tracker.dto.aggregation.ResolvedDateIssueAggregation;
+import issue_tracker.dto.aggregation.ReviewdDateIssueAggregation;
 import issue_tracker.dto.comment.CreateCommentDto;
 import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
@@ -14,7 +18,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/issues")
@@ -82,6 +88,23 @@ public class IssueController {
     @PostMapping("{id}/comments")
     public ResponseEntity<Comment> createComment(@PathVariable Long id, @RequestBody CreateCommentDto commentDto) {
         return new ResponseEntity<>(commentService.createByIssueId(id, commentDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/aggregation/created-date")
+    public ResponseEntity<List<CreatedDateIssueAggregation>> getCreatedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByCreatedDate());
+    }
+    @GetMapping("/aggregation/review-date")
+    public ResponseEntity<List<ReviewdDateIssueAggregation>> getReviewedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByReviewedDate());
+    }
+    @GetMapping("/aggregation/resolve-date")
+    public ResponseEntity<List<ResolvedDateIssueAggregation>> getResolvedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByResolvedDate());
+    }
+    @GetMapping("/aggregation/all-date")
+    public ResponseEntity<Map<LocalDateTime, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
+        return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
     }
 
 }
