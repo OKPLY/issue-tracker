@@ -2,16 +2,14 @@ package issue_tracker.repository;
 
 import issue_tracker.domain.Issue;
 import issue_tracker.domain.User;
-import issue_tracker.dto.aggregation.CreatedDateIssueAggregation;
-import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
-import issue_tracker.dto.aggregation.ResolvedDateIssueAggregation;
-import issue_tracker.dto.aggregation.ReviewdDateIssueAggregation;
+import issue_tracker.dto.aggregation.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public interface IssueRepo extends JpaRepository<Issue, Long> {
@@ -35,5 +33,9 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
 
     @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.resolver.Id = ?1")
     Long getResolveAggregate(Long id);
+
+    @Query("SELECT new issue_tracker.dto.aggregation.TypeCountAggregation(i.type.name, COUNT(i)) FROM Issue AS i GROUP BY i.type ORDER BY COUNT(i) DESC")
+    List<TypeCountAggregation> getMostCommonIssueType();
+
 }
 

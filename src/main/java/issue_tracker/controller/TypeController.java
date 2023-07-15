@@ -3,9 +3,11 @@ package issue_tracker.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Issue;
 import issue_tracker.domain.Type;
+import issue_tracker.dto.aggregation.TypeCountAggregation;
 import issue_tracker.dto.type.CreateTypeDto;
 import issue_tracker.dto.type.UpdateTypeDto;
 import issue_tracker.service.TypeService;
+import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.sql.Update;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,11 @@ public class TypeController {
     @GetMapping("{id}")
     public ResponseEntity<Type> findById(@PathVariable Long id){
         return ResponseEntity.ok(typeService.findById(id));
+    }
+
+    @GetMapping("/aggregate")
+    public ResponseEntity<List<TypeCountAggregation>> aggregate(@RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(typeService.topTypes(limit == null ? 10 : limit));
     }
 
     @PostMapping

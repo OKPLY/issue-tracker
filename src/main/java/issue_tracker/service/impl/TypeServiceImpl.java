@@ -1,8 +1,10 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.Type;
+import issue_tracker.dto.aggregation.TypeCountAggregation;
 import issue_tracker.dto.type.CreateTypeDto;
 import issue_tracker.dto.type.UpdateTypeDto;
+import issue_tracker.repository.IssueRepo;
 import issue_tracker.repository.TypeRepo;
 import issue_tracker.service.TypeService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.util.NoSuchElementException;
 public class TypeServiceImpl implements TypeService {
 
     private final TypeRepo typeRepo;
+    private final IssueRepo issueRepo;
     private final ModelMapper modelMapper;
 
     @Override
@@ -55,5 +58,11 @@ public class TypeServiceImpl implements TypeService {
         type.setDeleted(true);
 
         return typeRepo.save(type);
+    }
+
+    @Override
+    public List<TypeCountAggregation> topTypes(Integer limit){
+        var typeCounts = issueRepo.getMostCommonIssueType();
+        return typeCounts.stream().limit(limit).toList();
     }
 }

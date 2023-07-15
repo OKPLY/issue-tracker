@@ -1,6 +1,7 @@
 package issue_tracker.service;
 
 import issue_tracker.domain.Type;
+import issue_tracker.dto.aggregation.TypeCountAggregation;
 import issue_tracker.dto.type.CreateTypeDto;
 import issue_tracker.dto.type.UpdateTypeDto;
 
@@ -16,4 +17,6 @@ public interface TypeService {
     Type update(UpdateTypeDto typeDto);
 
     Type delete(Long id);
+
+    List<TypeCountAggregation> topTypes(Integer limit);
 }
