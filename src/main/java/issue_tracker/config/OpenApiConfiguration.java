@@ -22,10 +22,8 @@ public class OpenApiConfiguration {
         return new OpenAPI()
                 .info(
                         new Info()
-                                .title("Property Management Backend API")
-                                .description("Api Explorer for PMS")
-                                .version("1.0")
-                                .description("Property Management Api Explorer")
+                                .title("Issue Tracker API")
+                                .description("Issue Tracker API")
                                 .version("1.0")
                 )
                 .addServersItem(new Server().url("http://localhost:8080"))
