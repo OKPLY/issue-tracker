@@ -37,5 +37,8 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
     @Query("SELECT new issue_tracker.dto.aggregation.TypeCountAggregation(i.type.name, COUNT(i)) FROM Issue AS i GROUP BY i.type ORDER BY COUNT(i) DESC")
     List<TypeCountAggregation> getMostCommonIssueType();
 
+    @Query("SELECT new issue_tracker.dto.aggregation.StatusCountAggregation(i.status, COUNT(i)) FROM Issue AS i GROUP BY i.status")
+    List<StatusCountAggregation> getStatusCountAggregation();
+
 }
 

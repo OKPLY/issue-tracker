@@ -1,10 +1,7 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.Issue;
-import issue_tracker.dto.aggregation.CreatedDateIssueAggregation;
-import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
-import issue_tracker.dto.aggregation.ResolvedDateIssueAggregation;
-import issue_tracker.dto.aggregation.ReviewdDateIssueAggregation;
+import issue_tracker.dto.aggregation.*;
 import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
@@ -113,6 +110,11 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<ResolvedDateIssueAggregation> aggregateByResolvedDate() {
         return issueRepo.aggregateByResolvedDate();
+    }
+
+    @Override
+    public List<StatusCountAggregation> aggregateByStatus() {
+        return issueRepo.getStatusCountAggregation();
     }
 
     @Override

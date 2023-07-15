@@ -3,10 +3,7 @@ package issue_tracker.controller;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.Comment;
 import issue_tracker.domain.Issue;
-import issue_tracker.dto.aggregation.CreatedDateIssueAggregation;
-import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
-import issue_tracker.dto.aggregation.ResolvedDateIssueAggregation;
-import issue_tracker.dto.aggregation.ReviewdDateIssueAggregation;
+import issue_tracker.dto.aggregation.*;
 import issue_tracker.dto.comment.CreateCommentDto;
 import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
@@ -41,14 +38,36 @@ public class IssueController {
         return ResponseEntity.ok(issueService.findById(id));
     }
 
-    @PostMapping
-    public ResponseEntity<Issue> create(@RequestBody CreateIssueDto issueDto) {
-        return new ResponseEntity<>(issueService.create(issueDto), HttpStatus.CREATED);
-    }
-
     @GetMapping("{id}/issues")
     public ResponseEntity<List<Issue>> findByParentIssueId(@PathVariable Long id) {
         return ResponseEntity.ok(issueService.findByParentIssueId(id));
+    }
+
+    @GetMapping("/aggregate/created-date")
+    public ResponseEntity<List<CreatedDateIssueAggregation>> getCreatedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByCreatedDate());
+    }
+    @GetMapping("/aggregate/review-date")
+    public ResponseEntity<List<ReviewdDateIssueAggregation>> getReviewedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByReviewedDate());
+    }
+    @GetMapping("/aggregate/resolve-date")
+    public ResponseEntity<List<ResolvedDateIssueAggregation>> getResolvedDateAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByResolvedDate());
+    }
+    @GetMapping("/aggregate/all-date")
+    public ResponseEntity<Map<LocalDateTime, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
+        return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
+    }
+
+    @GetMapping("/aggregate/status")
+    public ResponseEntity<List<StatusCountAggregation>> getStatusCountAggregation() {
+        return ResponseEntity.ok(issueService.aggregateByStatus());
+    }
+
+    @PostMapping
+    public ResponseEntity<Issue> create(@RequestBody CreateIssueDto issueDto) {
+        return new ResponseEntity<>(issueService.create(issueDto), HttpStatus.CREATED);
     }
 
     @PostMapping("{id}/issues")
@@ -88,23 +107,6 @@ public class IssueController {
     @PostMapping("{id}/comments")
     public ResponseEntity<Comment> createComment(@PathVariable Long id, @RequestBody CreateCommentDto commentDto) {
         return new ResponseEntity<>(commentService.createByIssueId(id, commentDto), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/aggregation/created-date")
-    public ResponseEntity<List<CreatedDateIssueAggregation>> getCreatedDateAggregation() {
-        return ResponseEntity.ok(issueService.aggregateByCreatedDate());
-    }
-    @GetMapping("/aggregation/review-date")
-    public ResponseEntity<List<ReviewdDateIssueAggregation>> getReviewedDateAggregation() {
-        return ResponseEntity.ok(issueService.aggregateByReviewedDate());
-    }
-    @GetMapping("/aggregation/resolve-date")
-    public ResponseEntity<List<ResolvedDateIssueAggregation>> getResolvedDateAggregation() {
-        return ResponseEntity.ok(issueService.aggregateByResolvedDate());
-    }
-    @GetMapping("/aggregation/all-date")
-    public ResponseEntity<Map<LocalDateTime, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
-        return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
     }
 
 }
