@@ -16,5 +16,10 @@ public class CreatedResolvedReviewedAggregate {
         this.reviewed = 0L;
     }
 
+    public CreatedResolvedReviewedAggregate(Long created, Long resolved, Long reviewed) {
+        this.created = created;
+        this.resolved = resolved;
+        this.reviewed = reviewed;
+    }
 }
 
