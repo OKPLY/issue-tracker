@@ -30,7 +30,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserResponse login(UserRequest loginRequest) {
-        System.out.println(">>>>> hereeeee");
         Authentication result = null;
         try {
             result = authenticationManager.authenticate(
