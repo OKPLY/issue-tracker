@@ -26,19 +26,25 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
     List<ResolvedDateIssueAggregation> aggregateByResolvedDate();
 
 
-   @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.creator.Id = ?1")
-   Long getCreationAggregate(Long id);
-    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer.Id = ?1")
-    Long getReviewAggregate(Long id);
+   @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.creator = ?1")
+   Long getCreationAggregate(User user);
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer = ?1")
+    Long getReviewAggregate(User user);
 
-    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.resolver.Id = ?1")
-    Long getResolveAggregate(Long id);
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.resolver = ?1")
+    Long getResolveAggregate(User user);
 
-    @Query("SELECT new issue_tracker.dto.aggregation.TypeCountAggregation(i.type.name, COUNT(i)) FROM Issue AS i GROUP BY i.type ORDER BY COUNT(i) DESC")
-    List<TypeCountAggregation> getMostCommonIssueType();
+    // TODO: Figure out how to get the nulls
+    @Query("SELECT new issue_tracker.dto.aggregation.TypeCountAggregation(i.type.name, COUNT(i)) FROM Issue AS i GROUP BY i.type")
+    List<TypeCountAggregation> getTypeCountAggregation();
 
-    @Query("SELECT new issue_tracker.dto.aggregation.StatusCountAggregation(i.status, COUNT(i)) FROM Issue AS i GROUP BY i.status")
-    List<StatusCountAggregation> getStatusCountAggregation();
+    //Query to get the top 5 most common tags
+    @Query("SELECT new issue_tracker.dto.aggregation.TagCountAggregation(t.name, COUNT(i)) FROM Issue AS i JOIN i.tags AS t GROUP BY t.name ORDER BY COUNT(i) DESC")
+    List<TagCountAggregation> getMostCommonIssueTags();
+
+    // No longer needed
+//    @Query("SELECT new issue_tracker.dto.aggregation.StatusCountAggregation(i.status, COUNT(i)) FROM Issue AS i GROUP BY i.status")
+//    List<StatusCountAggregation> getStatusCountAggregation();
 
 }
 

@@ -34,8 +34,8 @@ public class TypeController {
     }
 
     @GetMapping("/aggregate")
-    public ResponseEntity<List<TypeCountAggregation>> aggregate(@RequestParam(required = false) Integer limit) {
-        return ResponseEntity.ok(typeService.topTypes(limit == null ? 10 : limit));
+    public ResponseEntity<List<TypeCountAggregation>> aggregate() {
+        return ResponseEntity.ok(typeService.typeCountAggregation());
     }
 
     @PostMapping

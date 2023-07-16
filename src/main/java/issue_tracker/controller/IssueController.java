@@ -60,9 +60,9 @@ public class IssueController {
         return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
     }
 
-    @GetMapping("/aggregate/status")
-    public ResponseEntity<List<StatusCountAggregation>> getStatusCountAggregation() {
-        return ResponseEntity.ok(issueService.aggregateByStatus());
+    @GetMapping("/aggregate/tag")
+    public ResponseEntity<List<TagCountAggregation>> getStatusCountAggregation(@RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(issueService.aggregateByTopTag(limit == null ? 10 : limit));
     }
 
     @PostMapping

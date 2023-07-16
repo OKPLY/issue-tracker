@@ -18,5 +18,7 @@ public interface TypeService {
 
     Type delete(Long id);
 
-    List<TypeCountAggregation> topTypes(Integer limit);
+//    List<TypeCountAggregation> topTypes(Integer limit);
+
+    List<TypeCountAggregation> typeCountAggregation();
 }
