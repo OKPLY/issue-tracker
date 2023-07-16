@@ -1,10 +1,8 @@
 package issue_tracker.service;
 
 
-import issue_tracker.domain.dto.RefreshTokenRequest;
-import issue_tracker.domain.dto.UserRequest;
-import issue_tracker.domain.dto.UserResponse;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import issue_tracker.dto.auth.UserRequest;
+import issue_tracker.dto.auth.UserResponse;
 
 public interface AuthService  {
     UserResponse login(UserRequest loginRequest);

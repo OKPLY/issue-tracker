@@ -4,9 +4,9 @@ package issue_tracker.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.domain.User;
-import issue_tracker.domain.dto.CreateUser;
-import issue_tracker.domain.dto.UserRequest;
-import issue_tracker.domain.dto.UserResponse;
+import issue_tracker.dto.auth.CreateUser;
+import issue_tracker.dto.auth.UserRequest;
+import issue_tracker.dto.auth.UserResponse;
 import issue_tracker.service.UserService;
 import issue_tracker.service.impl.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;

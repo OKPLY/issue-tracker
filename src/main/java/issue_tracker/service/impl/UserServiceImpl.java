@@ -1,7 +1,7 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.User;
-import issue_tracker.domain.dto.CreateUser;
+import issue_tracker.dto.auth.CreateUser;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 import issue_tracker.repository.IssueRepo;
 import issue_tracker.repository.RoleRepo;
@@ -10,16 +10,13 @@ import issue_tracker.service.UserService;
 import issue_tracker.utility.Util;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

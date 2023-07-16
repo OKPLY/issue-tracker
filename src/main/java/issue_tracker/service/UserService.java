@@ -1,7 +1,7 @@
 package issue_tracker.service;
 
 import issue_tracker.domain.User;
-import issue_tracker.domain.dto.CreateUser;
+import issue_tracker.dto.auth.CreateUser;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 
 import java.util.List;

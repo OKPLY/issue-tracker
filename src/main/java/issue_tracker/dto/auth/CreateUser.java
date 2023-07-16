@@ -1,4 +1,4 @@
-package issue_tracker.domain.dto;
+package issue_tracker.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;

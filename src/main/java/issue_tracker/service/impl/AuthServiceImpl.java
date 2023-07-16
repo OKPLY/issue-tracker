@@ -2,8 +2,8 @@ package issue_tracker.service.impl;
 
 
 
-import issue_tracker.domain.dto.UserRequest;
-import issue_tracker.domain.dto.UserResponse;
+import issue_tracker.dto.auth.UserRequest;
+import issue_tracker.dto.auth.UserResponse;
 import issue_tracker.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
