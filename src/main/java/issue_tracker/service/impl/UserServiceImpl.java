@@ -7,6 +7,7 @@ import issue_tracker.repository.IssueRepo;
 import issue_tracker.repository.RoleRepo;
 import issue_tracker.repository.UserRepo;
 import issue_tracker.service.UserService;
+import issue_tracker.utility.Util;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,6 +32,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final IssueRepo issueRepo;
     private final RoleRepo roleRepo;
     private final ModelMapper modelMapper;
+    private final Util util;
 
 
 
@@ -97,10 +99,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public CreatedResolvedReviewedAggregate currentUserAggregate(){
-        CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Long created = issueRepo.getCreationAggregate(user.getId());
-        Long resolved = issueRepo.getResolveAggregate(user.getId());
-        Long reviewed = issueRepo.getReviewAggregate(user.getId());
+        User user = util.getUserFromContext();
+        Long created = issueRepo.getCreationAggregate(user);
+        Long resolved = issueRepo.getResolveAggregate(user);
+        Long reviewed = issueRepo.getReviewAggregate(user);
 
         return new CreatedResolvedReviewedAggregate(created, resolved, reviewed);
     }
