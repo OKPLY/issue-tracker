@@ -44,6 +44,8 @@ public class JwtUtil {
     }
     //3 Read Exp Date
     public Date getExpDate(String token){
+
+
         return getClaims(token).getExpiration();
     }
     //4.Read subject/username
@@ -54,15 +56,14 @@ public class JwtUtil {
     //5 validate Exp Date
     public boolean isTokenExp(String token){
         Date expDate = getExpDate(token);
-        return expDate.before(new Date(System.currentTimeMillis()));
+        return !(expDate.before(new Date(System.currentTimeMillis())));
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                    .setSigningKey(secret.getBytes())
-                    .parseClaimsJws(token);
-            return true;
+            final String username = getUsername(token);
+            return username.equals(getUserDetails(token).getUsername()) && isTokenExp(token);
+
         } catch (SignatureException e) {
             System.out.println(e.getMessage());
         } catch (MalformedJwtException e) {
@@ -77,12 +78,18 @@ public class JwtUtil {
         return false;
     }
     public Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
 
-        UserDetails userDetails = userService.loadUserByUsername(claims.getSubject()); // LEFT THIS HERE ON PURPOSE
+        UserDetails userDetails = getUserDetails(token);
         var authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         return authentication;
+    }
+
+    public UserDetails getUserDetails(String token){
+        Claims claims = getClaims(token);
+        UserDetails userDetails = userService.loadUserByUsername(claims.getSubject()); // LEFT THIS HERE ON PURPOSE
+        return userDetails;
+
     }
 
 

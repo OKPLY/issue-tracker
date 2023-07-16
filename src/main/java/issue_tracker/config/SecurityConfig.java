@@ -5,6 +5,7 @@ import issue_tracker.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -50,8 +51,10 @@ public class SecurityConfig {
                                 .permitAll()
                                 .requestMatchers("/uaa/login").permitAll()
                                 .requestMatchers("/uaa/signup").permitAll()
-                                .requestMatchers("/users").hasAnyAuthority(roles)
-                                .requestMatchers("/users/add").hasAnyAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/issues")
+                                .hasAuthority("canView")
+                                .requestMatchers(HttpMethod.POST, "/issues")
+                                .hasAuthority("canCreate")
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS));
