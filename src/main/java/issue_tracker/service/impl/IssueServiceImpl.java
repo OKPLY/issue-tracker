@@ -7,6 +7,7 @@ import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 import issue_tracker.repository.IssueRepo;
 import issue_tracker.service.IssueService;
+import issue_tracker.utility.Util;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class IssueServiceImpl implements IssueService {
     private final IssueRepo issueRepo;
 
     private final ModelMapper modelMapper;
+
+    private final Util util;
 
     @Override
     public List<Issue> findAll() {
@@ -48,6 +51,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue create(CreateIssueDto issueDto) {
         Issue issue = modelMapper.map(issueDto, Issue.class);
+        issue.setCreator(util.getUserFromContext());
         return issueRepo.save(issue);
     }
 
@@ -56,6 +60,7 @@ public class IssueServiceImpl implements IssueService {
         Issue parentIssue = findById(parentIssueId);
         Issue issue = modelMapper.map(issueDto, Issue.class);
         issue.setParentIssue(parentIssue);
+        issue.setCreator(util.getUserFromContext());
 
         return issueRepo.save(issue);
     }
@@ -74,6 +79,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue assign(AssignIssueDto issueDto) {
         Issue issue = findById(issueDto.getId());
+        issue.setReviewer(util.getUserFromContext());
         modelMapper.map(issueDto, issue);
 
         issue.setAssignedAt(LocalDateTime.now());
@@ -84,7 +90,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue resolve(Long id) {
         Issue issue = findById(id);
-
+        issue.setResolver(util.getUserFromContext());
         issue.setResolvedAt(LocalDateTime.now());
 
         return issueRepo.save(issue);
@@ -112,9 +118,17 @@ public class IssueServiceImpl implements IssueService {
         return issueRepo.aggregateByResolvedDate();
     }
 
+    // No longer needed
+//    @Override
+//    public List<StatusCountAggregation> aggregateByStatus() {
+//        return issueRepo.getStatusCountAggregation();
+//    }
+
     @Override
-    public List<StatusCountAggregation> aggregateByStatus() {
-        return issueRepo.getStatusCountAggregation();
+    public List<TagCountAggregation> aggregateByTopTag(Integer limit) {
+        var data =  issueRepo.getMostCommonIssueTags();
+        return data.stream().limit(limit).toList();
+
     }
 
     @Override
