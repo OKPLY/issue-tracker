@@ -61,8 +61,7 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public List<TypeCountAggregation> topTypes(Integer limit){
-        var typeCounts = issueRepo.getMostCommonIssueType();
-        return typeCounts.stream().limit(limit).toList();
+    public List<TypeCountAggregation> typeCountAggregation(){
+       return issueRepo.getTypeCountAggregation();
     }
 }
