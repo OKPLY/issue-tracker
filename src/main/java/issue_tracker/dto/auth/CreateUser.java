@@ -10,6 +10,6 @@ public class CreateUser {
     private String lastname;
     private String email;
     private String password;
-
+    private String profilePicture;
 
 }

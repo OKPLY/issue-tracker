@@ -40,6 +40,11 @@ public class User {
     private String password;
 
     @Column(
+            name = "profile_picture"
+    )
+    private String profilePicture;
+
+    @Column(
             name = "created_at",
             nullable = false
     )
