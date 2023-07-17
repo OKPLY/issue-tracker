@@ -49,7 +49,10 @@ public class Role {
     private Boolean deleted = false;
 
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(
+            mappedBy = "roles",
+            fetch = FetchType.EAGER
+    )
     @JsonManagedReference
     private List<Permission> permissions;
 }
