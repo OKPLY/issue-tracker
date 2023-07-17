@@ -21,6 +21,8 @@ public class UpdateIssueDto {
 
     private UpdateIssueTypeDto type;
 
+    private List<UpdateIssueAttachmentDto> attachments;
+
 }
 
 @Getter
@@ -32,5 +34,11 @@ class UpdateIssueTypeDto {
 @Getter
 @Setter
 class UpdateIssueTagDto {
+    private Long id;
+}
+
+@Getter
+@Setter
+class UpdateIssueAttachmentDto {
     private Long id;
 }

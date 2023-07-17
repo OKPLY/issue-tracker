@@ -1,36 +1,27 @@
 package issue_tracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Data
 @Entity
-@Where(clause = "deleted=false")
-public class Comment {
+@Data
+public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(
-            name = "comment_text",
+            name = "url",
             nullable = false
     )
-    private String commentText;
-
-    @OneToMany(mappedBy = "comment")
-    @Cascade(CascadeType.ALL)
-    @JsonManagedReference
-    private List<Attachment> attachments;
+    private String url;
 
     @Column(
             name = "created_at",
@@ -56,24 +47,14 @@ public class Comment {
     @JsonIgnore
     private Boolean deleted = false;
 
-
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(
-            name = "issue_id"//,
-            //nullable = false
-    )
+    @JoinColumn(name = "issue_id")
+    @JsonBackReference
     private Issue issue;
 
     @ManyToOne
-    @JoinColumn(
-            name = "user_id"//,
-            //nullable = false
-    )
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment;
-
+    @JoinColumn(name = "comment_id")
+    @JsonBackReference
+    private Comment comment;
 }
+
