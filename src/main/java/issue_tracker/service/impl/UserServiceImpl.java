@@ -3,6 +3,7 @@ package issue_tracker.service.impl;
 import issue_tracker.domain.User;
 import issue_tracker.dto.auth.CreateUser;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
+import issue_tracker.dto.user.BasicUserDto;
 import issue_tracker.repository.IssueRepo;
 import issue_tracker.repository.RoleRepo;
 import issue_tracker.repository.UserRepo;
@@ -63,6 +64,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (existingUser != null) {
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(pwdEncoder.encode(user.getPassword()));
+            // To change profile picture
+            existingUser.setProfilePicture(user.getProfilePicture());
             return userRepository.save(existingUser);
         }
         return null;
@@ -105,6 +108,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Long reviewed = issueRepo.getReviewAggregate(user);
 
         return new CreatedResolvedReviewedAggregate(created, resolved, reviewed);
+    }
+
+    @Override
+    public BasicUserDto getCurrentUser() {
+        var User = util.getUserFromContext();
+        return modelMapper.map(User, BasicUserDto.class);
     }
 }
 
