@@ -38,11 +38,12 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtAuthFilter securityFilter;
-    String[] roles = {"ADMIN"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.cors().and().csrf(AbstractHttpConfigurer::disable)
+        http
+                .cors().and()
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/swagger-ui/**",
