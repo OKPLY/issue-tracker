@@ -19,6 +19,7 @@ import java.util.List;
 @RequestMapping("/types")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class TypeController {
 
     private final TypeService typeService;

@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("comments")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class CommentController {
 
     private final CommentService commentService;

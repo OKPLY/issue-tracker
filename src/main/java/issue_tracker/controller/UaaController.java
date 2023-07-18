@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/uaa")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class UaaController {
     private final AuthServiceImpl authService;
     private final UserService userService;

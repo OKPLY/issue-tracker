@@ -23,6 +23,7 @@ import java.util.Map;
 @RequestMapping("/issues")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class IssueController {
 
     private final IssueService issueService;

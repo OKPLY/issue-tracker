@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/tags")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
+@CrossOrigin
 public class TagController {
 
     private final TagService tagService;
