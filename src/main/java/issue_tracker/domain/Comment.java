@@ -27,9 +27,9 @@ public class Comment {
     )
     private String commentText;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany
+    @JoinColumn(name = "comment_id")
     @Cascade(CascadeType.ALL)
-    @JsonManagedReference
     private List<Attachment> attachments;
 
     @Column(

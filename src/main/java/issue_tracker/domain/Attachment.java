@@ -46,15 +46,5 @@ public class Attachment {
     )
     @JsonIgnore
     private Boolean deleted = false;
-
-    @ManyToOne
-    @JoinColumn(name = "issue_id")
-    @JsonBackReference
-    private Issue issue;
-
-    @ManyToOne
-    @JoinColumn(name = "comment_id")
-    @JsonBackReference
-    private Comment comment;
 }
 

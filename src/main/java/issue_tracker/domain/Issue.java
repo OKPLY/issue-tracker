@@ -35,9 +35,9 @@ public class Issue {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany
+    @JoinColumn(name = "issue_id")
     @Cascade(CascadeType.ALL)
-    @JsonManagedReference
     private List<Attachment> attachments;
 
     @Column(

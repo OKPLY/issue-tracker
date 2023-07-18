@@ -1,6 +1,7 @@
 package issue_tracker.dto.issue;
 
 import issue_tracker.domain.Attachment;
+import issue_tracker.dto.attachment.AttachmentDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class CreateIssueDto {
 
     private CreateIssueTypeDto type;
 
-    private List<CreateIssueAttachmentDto> attachments;
+    private List<AttachmentDto> attachments;
 
 }
 
@@ -30,11 +31,5 @@ class CreateIssueTypeDto {
 @Getter
 @Setter
 class CreateIssueTagDto {
-    private Long id;
-}
-
-@Getter
-@Setter
-class CreateIssueAttachmentDto {
     private Long id;
 }

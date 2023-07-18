@@ -1,6 +1,7 @@
 package issue_tracker.dto.comment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import issue_tracker.dto.attachment.AttachmentDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,11 +14,6 @@ public class UpdateCommentDto {
     private Long id;
     private String commentText;
 
-    private List<UpdateCommentAttachmentDto> attachments;
+    private List<AttachmentDto> attachments;
 }
 
-@Getter
-@Setter
-class UpdateCommentAttachmentDto {
-    private Long id;
-}

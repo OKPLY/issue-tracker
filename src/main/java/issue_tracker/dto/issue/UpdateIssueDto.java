@@ -1,6 +1,7 @@
 package issue_tracker.dto.issue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import issue_tracker.dto.attachment.AttachmentDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,7 @@ public class UpdateIssueDto {
 
     private UpdateIssueTypeDto type;
 
-    private List<UpdateIssueAttachmentDto> attachments;
+    private List<AttachmentDto> attachments;
 
 }
 
@@ -34,11 +35,5 @@ class UpdateIssueTypeDto {
 @Getter
 @Setter
 class UpdateIssueTagDto {
-    private Long id;
-}
-
-@Getter
-@Setter
-class UpdateIssueAttachmentDto {
     private Long id;
 }
