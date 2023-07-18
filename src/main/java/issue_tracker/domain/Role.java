@@ -50,8 +50,12 @@ public class Role {
 
 
     @ManyToMany(
-            mappedBy = "roles",
             fetch = FetchType.EAGER
+    )
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
     @JsonManagedReference
     private List<Permission> permissions;

@@ -49,7 +49,7 @@ public class Permission {
     private Boolean deleted = false;
 
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "permissions")
     @JsonBackReference
     private List<Role> roles;
 }
