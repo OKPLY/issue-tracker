@@ -38,7 +38,6 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtAuthFilter securityFilter;
-    String[] roles = {"ADMIN"};
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -60,7 +59,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateAttachment")
                                 .requestMatchers(HttpMethod.DELETE, "/attachments")
                                 .hasAuthority("canDeleteAttachment")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/comments")
                                 .hasAuthority("canCreateComment")
                                 .requestMatchers(HttpMethod.GET, "/comments")
@@ -69,7 +68,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateComment")
                                 .requestMatchers(HttpMethod.DELETE, "/comments")
                                 .hasAuthority("canDeleteComment")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/issues")
                                 .hasAuthority("canCreateIssue")
                                 .requestMatchers(HttpMethod.GET, "/issues")
@@ -78,7 +77,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateIssue")
                                 .requestMatchers(HttpMethod.DELETE, "/issues")
                                 .hasAuthority("canDeleteIssue")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/permissions")
                                 .hasAuthority("canCreatePermission")
                                 .requestMatchers(HttpMethod.GET, "/permissions")
@@ -87,7 +86,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdatePermission")
                                 .requestMatchers(HttpMethod.DELETE, "/permissions")
                                 .hasAuthority("canDeletePermission")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/roles")
                                 .hasAuthority("canCreateRole")
                                 .requestMatchers(HttpMethod.GET, "/roles")
@@ -96,7 +95,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateRole")
                                 .requestMatchers(HttpMethod.DELETE, "/roles")
                                 .hasAuthority("canDeleteRole")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/tags")
                                 .hasAuthority("canCreateTag")
                                 .requestMatchers(HttpMethod.GET, "/tags")
@@ -105,7 +104,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateTag")
                                 .requestMatchers(HttpMethod.DELETE, "/tags")
                                 .hasAuthority("canDeleteTag")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/types")
                                 .hasAuthority("canCreateType")
                                 .requestMatchers(HttpMethod.GET, "/types")
@@ -114,7 +113,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateType")
                                 .requestMatchers(HttpMethod.DELETE, "/types")
                                 .hasAuthority("canDeleteType")
-                                
+
                                 .requestMatchers(HttpMethod.POST, "/users")
                                 .hasAuthority("canCreateUser")
                                 .requestMatchers(HttpMethod.GET, "/users")
@@ -123,7 +122,7 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateUser")
                                 .requestMatchers(HttpMethod.DELETE, "/users")
                                 .hasAuthority("canDeleteUser")
-                                
+
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS));
