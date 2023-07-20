@@ -13,7 +13,6 @@ import java.util.List;
 
 @Data
 @Entity
-@Where(clause = "deleted=false")
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -22,12 +22,12 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> findAll() {
-        return tagRepo.findAll();
+        return tagRepo.findAllByDeletedIsFalse();
     }
 
     @Override
     public Tag findById(Long id) {
-        var res = tagRepo.findById(id);
+        var res = tagRepo.findAllByIdAndDeletedIsFalse(id);
 
         if (res.isPresent())
             return res.get();
@@ -37,6 +37,13 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag create(CreateTagDto tagDto) {
+
+        var existing = tagRepo.findAllByName(tagDto.getName());
+        if(existing.isPresent()){
+            existing.get().setDeleted(false);
+            return tagRepo.save(existing.get());
+        }
+
         var tag = modelMapper.map(tagDto, Tag.class);
 
         Tag saved;

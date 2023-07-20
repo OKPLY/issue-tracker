@@ -24,12 +24,12 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public List<Type> findAll(){
-        return typeRepo.findAll();
+        return typeRepo.findAllByDeletedIsFalse();
     }
 
     @Override
     public Type findById(Long id){
-        var res = typeRepo.findById(id);
+        var res = typeRepo.findAllByIdAndDeletedIsFalse(id);
 
         if(res.isPresent())
             return res.get();
@@ -39,6 +39,12 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public Type create(CreateTypeDto typeDto){
+        var existing = typeRepo.findAllByName(typeDto.getName());
+        if(existing.isPresent()){
+            existing.get().setDeleted(false);
+            return typeRepo.save(existing.get());
+        }
+
         Type type = modelMapper.map(typeDto, Type.class);
 
         return typeRepo.save(type);

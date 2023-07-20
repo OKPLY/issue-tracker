@@ -14,7 +14,6 @@ import java.util.List;
 
 @Data
 @Entity
-@Where(clause = "deleted=false")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
