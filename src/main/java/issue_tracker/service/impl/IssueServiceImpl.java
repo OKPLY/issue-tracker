@@ -84,6 +84,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue assign(AssignIssueDto issueDto) {
         Issue issue = findById(issueDto.getId());
+        issue.setResolver(null);
         issue.setReviewer(util.getUserFromContext());
         modelMapper.map(issueDto, issue);
 
@@ -99,6 +100,14 @@ public class IssueServiceImpl implements IssueService {
         issue.setResolver(util.getUserFromContext());
         issue.setResolvedAt(LocalDateTime.now());
         issue.setStatus(Status.RESOLVED);
+        return issueRepo.save(issue);
+    }
+    @Override
+    public Issue close(Long id) {
+        Issue issue = findById(id);
+        issue.setReviewer(util.getUserFromContext());
+        issue.setAssignedAt(LocalDateTime.now());
+        issue.setStatus(Status.CLOSED);
         return issueRepo.save(issue);
     }
 
@@ -206,6 +215,7 @@ public class IssueServiceImpl implements IssueService {
         return issueStream.toList();
 
     }
+
 
 
 }

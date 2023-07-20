@@ -102,6 +102,11 @@ public class IssueController {
         return ResponseEntity.ok(issueService.resolve(id));
     }
 
+    @PostMapping("{id}/close")
+    public ResponseEntity<Issue> close(@PathVariable Long id) {
+        return ResponseEntity.ok(issueService.close(id));
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<Issue> update(@PathVariable Long id, @RequestBody UpdateIssueDto issueDto) {
         issueDto.setId(id);
