@@ -115,5 +115,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         var User = util.getUserFromContext();
         return modelMapper.map(User, BasicUserDto.class);
     }
+
+
+    @Override
+    public List<User> getRecentUsers(Integer limit){
+        return userRepository.getRecentUsers().stream().limit(limit).toList();
+    }
 }
 

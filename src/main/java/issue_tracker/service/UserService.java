@@ -17,4 +17,6 @@ public interface UserService {
     CreatedResolvedReviewedAggregate currentUserAggregate();
 
     BasicUserDto getCurrentUser();
+
+    List<User> getRecentUsers(Integer limit);
 }

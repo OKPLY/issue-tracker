@@ -177,5 +177,10 @@ public class IssueServiceImpl implements IssueService {
         return data;
     }
 
+    @Override
+    public List<Issue> getRecentIssues(Integer limit){
+        return issueRepo.getRecentIssues().stream().limit(limit).toList();
+    }
+
 
 }

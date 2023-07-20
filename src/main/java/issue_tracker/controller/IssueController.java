@@ -66,6 +66,11 @@ public class IssueController {
         return ResponseEntity.ok(issueService.aggregateByTopTag(limit == null ? 10 : limit));
     }
 
+    @GetMapping("/recentIssues")
+    public ResponseEntity<List<Issue>> getRecentIssues(@RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(issueService.getRecentIssues(limit == null ? 10 : limit));
+    }
+
     @PostMapping
     public ResponseEntity<Issue> create(@RequestBody CreateIssueDto issueDto) {
         return new ResponseEntity<>(issueService.create(issueDto), HttpStatus.CREATED);

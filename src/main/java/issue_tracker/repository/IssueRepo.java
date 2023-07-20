@@ -42,6 +42,10 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
     @Query("SELECT new issue_tracker.dto.aggregation.TagCountAggregation(t.name, COUNT(i)) FROM Issue AS i JOIN i.tags AS t GROUP BY t.name ORDER BY COUNT(i) DESC")
     List<TagCountAggregation> getMostCommonIssueTags();
 
+    // Query to get top 10 recent issues
+    @Query("SELECT i FROM Issue AS i ORDER BY i.createdAt DESC")
+    List<Issue> getRecentIssues();
+
     // No longer needed
 //    @Query("SELECT new issue_tracker.dto.aggregation.StatusCountAggregation(i.status, COUNT(i)) FROM Issue AS i GROUP BY i.status")
 //    List<StatusCountAggregation> getStatusCountAggregation();
