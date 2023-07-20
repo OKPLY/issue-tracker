@@ -37,7 +37,6 @@ public class Comment {
             nullable = false
     )
     @CreationTimestamp
-    @JsonIgnore
     private LocalDateTime createdAt;
 
     @Column(
@@ -45,7 +44,6 @@ public class Comment {
             nullable = false
     )
     @UpdateTimestamp
-    @JsonIgnore
     private LocalDateTime updatedAt;
 
     @Column(
