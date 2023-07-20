@@ -1,6 +1,7 @@
 package issue_tracker.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import issue_tracker.aspect.annotation.Log;
 import issue_tracker.domain.User;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 import issue_tracker.dto.user.BasicUserDto;
