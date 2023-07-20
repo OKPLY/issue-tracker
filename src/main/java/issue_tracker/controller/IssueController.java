@@ -71,6 +71,16 @@ public class IssueController {
         return ResponseEntity.ok(issueService.getRecentIssues(limit == null ? 10 : limit));
     }
 
+    @GetMapping("/filter")
+    public ResponseEntity<List<Issue>> filter(
+                                              @RequestParam(required = false) String status,
+                                              @RequestParam(required = false) Long tagId,
+                                              @RequestParam(required = false) Long typeId,
+                                              @RequestParam(required = false) String text
+                                              ) {
+        return ResponseEntity.ok(issueService.filter(status, tagId, typeId, text));
+    }
+
     @PostMapping
     public ResponseEntity<Issue> create(@RequestBody CreateIssueDto issueDto) {
         return new ResponseEntity<>(issueService.create(issueDto), HttpStatus.CREATED);
@@ -90,6 +100,11 @@ public class IssueController {
     @PostMapping("{id}/resolve")
     public ResponseEntity<Issue> resolve(@PathVariable Long id) {
         return ResponseEntity.ok(issueService.resolve(id));
+    }
+
+    @PostMapping("{id}/close")
+    public ResponseEntity<Issue> close(@PathVariable Long id) {
+        return ResponseEntity.ok(issueService.close(id));
     }
 
     @PutMapping("{id}")
