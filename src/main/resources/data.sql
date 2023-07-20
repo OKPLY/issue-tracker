@@ -1,3 +1,4 @@
+/*
 INSERT INTO user (deleted, created_at, updated_at, email, firstname, lastname, password, profile_picture)
 VALUES
     (0, NOW(), NOW(), 'admin', 'John', 'Doe', '$2a$10$v7ODyhz1mqID5W9bUT5/o.AcNKH9hrxSt607nezK9km75uI6Q/jyu', 'profile1.jpg');

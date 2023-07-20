@@ -21,14 +21,20 @@ public class UserController {
 
     private final UserService userService;
     private final Util util;
-   @GetMapping("/aggregate")
-    public ResponseEntity<CreatedResolvedReviewedAggregate> aggregate() {
-       return ResponseEntity.ok(userService.currentUserAggregate());
-   }
 
-    @GetMapping
+    @GetMapping("/aggregate")
+    public ResponseEntity<CreatedResolvedReviewedAggregate> aggregate() {
+        return ResponseEntity.ok(userService.currentUserAggregate());
+    }
+
+    @GetMapping("/current")
     public ResponseEntity<BasicUserDto> getUser() {
         return ResponseEntity.ok(userService.getCurrentUser());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> findAll() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/recentUsers")
