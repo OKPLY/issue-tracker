@@ -1,6 +1,7 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.Issue;
+import issue_tracker.domain.Status;
 import issue_tracker.dto.aggregation.*;
 import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
@@ -52,6 +53,7 @@ public class IssueServiceImpl implements IssueService {
     public Issue create(CreateIssueDto issueDto) {
         Issue issue = modelMapper.map(issueDto, Issue.class);
         issue.setCreator(util.getUserFromContext());
+        issue.setStatus(Status.CREATED);
         return issueRepo.save(issue);
     }
 
@@ -61,6 +63,7 @@ public class IssueServiceImpl implements IssueService {
         Issue issue = modelMapper.map(issueDto, Issue.class);
         issue.setParentIssue(parentIssue);
         issue.setCreator(util.getUserFromContext());
+        issue.setStatus(Status.CREATED);
 
         return issueRepo.save(issue);
     }
@@ -83,6 +86,7 @@ public class IssueServiceImpl implements IssueService {
         modelMapper.map(issueDto, issue);
 
         issue.setAssignedAt(LocalDateTime.now());
+        issue.setStatus(Status.ASSIGNED);
 
         return issueRepo.save(issue);
     }
@@ -92,7 +96,7 @@ public class IssueServiceImpl implements IssueService {
         Issue issue = findById(id);
         issue.setResolver(util.getUserFromContext());
         issue.setResolvedAt(LocalDateTime.now());
-
+        issue.setStatus(Status.RESOLVED);
         return issueRepo.save(issue);
     }
 

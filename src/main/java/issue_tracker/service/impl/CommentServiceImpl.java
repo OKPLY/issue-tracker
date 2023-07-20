@@ -7,6 +7,7 @@ import issue_tracker.dto.comment.UpdateCommentDto;
 import issue_tracker.repository.CommentRepo;
 import issue_tracker.service.CommentService;
 import issue_tracker.service.IssueService;
+import issue_tracker.utility.Util;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,10 @@ public class CommentServiceImpl implements CommentService {
     private final IssueService issueService;
     private final CommentRepo commentRepo;
     private final ModelMapper modelMapper;
+    private final Util util;
 
     private Comment create(Comment comment) {
+        comment.setUser(util.getUserFromContext());
         return commentRepo.save(comment);
     }
 
