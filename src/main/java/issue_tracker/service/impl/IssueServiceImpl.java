@@ -215,7 +215,7 @@ public class IssueServiceImpl implements IssueService {
                         issue.getDescription().toLowerCase().contains(text.toLowerCase());
             });
 
-        return issueStream.toList();
+        return issueStream.sorted((x, y) -> Long.compare(y.getId(), x.getId())).toList();
 
     }
 
