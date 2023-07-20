@@ -3,6 +3,7 @@ package issue_tracker.controller;
 
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import issue_tracker.aspect.annotation.Log;
 import issue_tracker.domain.User;
 import issue_tracker.dto.auth.CreateUser;
 import issue_tracker.dto.auth.UserRequest;
@@ -26,12 +27,14 @@ public class UaaController {
 
 
     @PostMapping ("/login")
+    @Log
     public ResponseEntity<?> login(@RequestBody UserRequest loginRequest) {
         var loginResponse = authService.login(loginRequest);
         return new ResponseEntity<UserResponse>(
                 loginResponse, HttpStatus.OK);
     }
     @PostMapping("/signup")
+    @Log
     public User signUp(@RequestBody CreateUser user) {
     return  userService.createUser(user);
     }
