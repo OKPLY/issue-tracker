@@ -20,7 +20,7 @@ public class LogServiceImpl implements LogService {
     private final Util util;
     @Override
     public List<Log> findAll() {
-        return logRepo.findAll();
+        return logRepo.findAllByOrderByIdDesc();
     }
 
     @Override
