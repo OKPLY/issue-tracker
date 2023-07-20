@@ -42,4 +42,6 @@ public interface IssueService {
     Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate();
 
     List<Issue> getRecentIssues(Integer limit);
+
+    List<Issue> filter(String status, Long tagId, Long typeId, String text);
 }

@@ -1,6 +1,7 @@
 package issue_tracker.service.impl;
 
 import issue_tracker.domain.Issue;
+import issue_tracker.domain.Tag;
 import issue_tracker.domain.Status;
 import issue_tracker.dto.aggregation.*;
 import issue_tracker.dto.issue.AssignIssueDto;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -180,6 +182,29 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<Issue> getRecentIssues(Integer limit){
         return issueRepo.getRecentIssues().stream().limit(limit).toList();
+    }
+
+    @Override
+    public List<Issue> filter(String status, Long tagId, Long typeId, String text) {
+        List<Issue> issues = issueRepo.findAll();
+        Stream<Issue> issueStream = issues.stream();
+
+        if(status != null)
+            issueStream = issueStream.filter((issue) -> issue.getStatus().toString().equals(status));
+
+        if(tagId != null)
+            issueStream = issueStream.filter((issue) -> issue.getTags().stream().anyMatch((tag) -> tag.getId().equals(tagId)));
+
+        if(typeId != null)
+            issueStream = issueStream.filter((issue) -> issue.getType().getId().equals(typeId));
+
+        if(text != null)
+            issueStream = issueStream.filter(issue -> {
+                return issue.getTitle().contains(text) || issue.getDescription().contains(text);
+            });
+
+        return issueStream.toList();
+
     }
 
 
