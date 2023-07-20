@@ -1,7 +1,6 @@
 package issue_tracker.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import issue_tracker.aspect.annotation.Log;
 import issue_tracker.domain.User;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 import issue_tracker.dto.user.BasicUserDto;
@@ -28,10 +27,15 @@ public class UserController {
        return ResponseEntity.ok(userService.currentUserAggregate());
    }
 
-    @GetMapping
     @Log
+    @GetMapping("/current")
     public ResponseEntity<BasicUserDto> getUser() {
         return ResponseEntity.ok(userService.getCurrentUser());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> findAll() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/recentUsers")

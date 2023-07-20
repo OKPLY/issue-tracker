@@ -102,6 +102,7 @@ public class IssueServiceImpl implements IssueService {
         issue.setStatus(Status.RESOLVED);
         return issueRepo.save(issue);
     }
+
     @Override
     public Issue close(Long id) {
         Issue issue = findById(id);
@@ -123,6 +124,7 @@ public class IssueServiceImpl implements IssueService {
     public List<CreatedDateIssueAggregation> aggregateByCreatedDate() {
         return issueRepo.aggregateByCreatedDate();
     }
+
     @Override
     public List<ReviewdDateIssueAggregation> aggregateByReviewedDate() {
         return issueRepo.aggregateByReviewedDate();
@@ -141,20 +143,20 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<TagCountAggregation> aggregateByTopTag(Integer limit) {
-        var data =  issueRepo.getMostCommonIssueTags();
+        var data = issueRepo.getMostCommonIssueTags();
         return data.stream().limit(limit).toList();
 
     }
 
     @Override
-    public Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate(){
+    public Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate() {
         var createdAggregate = issueRepo.aggregateByCreatedDate();
         var resolvedAggregate = issueRepo.aggregateByResolvedDate();
         var reviewedAggregate = issueRepo.aggregateByReviewedDate();
 
         Map<LocalDateTime, CreatedResolvedReviewedAggregate> data = new HashMap<>();
         createdAggregate.parallelStream().forEach((item) -> {
-            if(!data.containsKey(item.getCreatedAt())) {
+            if (!data.containsKey(item.getCreatedAt())) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setCreated(item.getAmount());
                 data.put(item.getCreatedAt(), aggregate);
@@ -164,7 +166,7 @@ public class IssueServiceImpl implements IssueService {
         });
 
         resolvedAggregate.parallelStream().forEach((item) -> {
-            if(!data.containsKey(item.getResolvedAt())) {
+            if (!data.containsKey(item.getResolvedAt())) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setResolved(item.getAmount());
                 data.put(item.getResolvedAt(), aggregate);
@@ -174,7 +176,7 @@ public class IssueServiceImpl implements IssueService {
         });
 
         reviewedAggregate.parallelStream().forEach((item) -> {
-            if(!data.containsKey(item.getReviewedAt())) {
+            if (!data.containsKey(item.getReviewedAt())) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setReviewed(item.getAmount());
                 data.put(item.getReviewedAt(), aggregate);
@@ -189,7 +191,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Issue> getRecentIssues(Integer limit){
+    public List<Issue> getRecentIssues(Integer limit) {
         return issueRepo.getRecentIssues().stream().limit(limit).toList();
     }
 
@@ -198,24 +200,24 @@ public class IssueServiceImpl implements IssueService {
         List<Issue> issues = issueRepo.findAll();
         Stream<Issue> issueStream = issues.stream();
 
-        if(status != null)
+        if (status != null && !status.isBlank())
             issueStream = issueStream.filter((issue) -> issue.getStatus().toString().equals(status));
 
-        if(tagId != null)
+        if (tagId != null)
             issueStream = issueStream.filter((issue) -> issue.getTags().stream().anyMatch((tag) -> tag.getId().equals(tagId)));
 
-        if(typeId != null)
+        if (typeId != null)
             issueStream = issueStream.filter((issue) -> issue.getType().getId().equals(typeId));
 
-        if(text != null)
+        if (text != null)
             issueStream = issueStream.filter(issue -> {
-                return issue.getTitle().contains(text) || issue.getDescription().contains(text);
+                return issue.getTitle().toLowerCase().contains(text.toLowerCase()) ||
+                        issue.getDescription().toLowerCase().contains(text.toLowerCase());
             });
 
-        return issueStream.toList();
+        return issueStream.sorted((x, y) -> Long.compare(y.getId(), x.getId())).toList();
 
     }
-
 
 
 }
