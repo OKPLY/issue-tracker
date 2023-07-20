@@ -1,16 +1,16 @@
 package issue_tracker.controller;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import issue_tracker.domain.User;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
 import issue_tracker.dto.user.BasicUserDto;
 import issue_tracker.service.UserService;
 import issue_tracker.utility.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -30,4 +30,10 @@ public class UserController {
     public ResponseEntity<BasicUserDto> getUser() {
         return ResponseEntity.ok(userService.getCurrentUser());
     }
+
+    @GetMapping("/recentUsers")
+    public ResponseEntity<List<User>> getRecentUsers(@RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(userService.getRecentUsers(limit == null ? 10 : limit));
+    }
+
 }

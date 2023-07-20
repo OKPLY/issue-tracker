@@ -40,4 +40,6 @@ public interface IssueService {
     List<TagCountAggregation> aggregateByTopTag(Integer limit);
 
     Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate();
+
+    List<Issue> getRecentIssues(Integer limit);
 }

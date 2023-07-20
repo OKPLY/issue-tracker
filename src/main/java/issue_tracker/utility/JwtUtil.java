@@ -30,7 +30,7 @@ public class JwtUtil {
                 .setSubject(subject)
                 .setIssuer("maggie")
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+ TimeUnit.MINUTES.toMillis(15)))
+                .setExpiration(new Date(System.currentTimeMillis()+ TimeUnit.HOURS.toMillis(24)))
                 .signWith(SignatureAlgorithm.HS512,secret.getBytes())
                 .compact();
     }
