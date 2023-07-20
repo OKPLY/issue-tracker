@@ -2,13 +2,14 @@ package issue_tracker.dto.user;
 
 
 import issue_tracker.domain.Role;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class BasicUserDto {
     private String firstname;
     private String lastname;

@@ -52,7 +52,6 @@ public class Issue {
             nullable = false
     )
     @UpdateTimestamp
-    @JsonIgnore
     private LocalDateTime updatedAt;
 
     @Column(
