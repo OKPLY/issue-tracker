@@ -87,9 +87,12 @@ public class IssueController {
                                               @RequestParam(required = false) String status,
                                               @RequestParam(required = false) Long tagId,
                                               @RequestParam(required = false) Long typeId,
-                                              @RequestParam(required = false) String text
+                                              @RequestParam(required = false) String text,
+                                              @RequestParam(required = false) Long creatorId,
+                                              @RequestParam(required = false) Long reviewerId,
+                                              @RequestParam(required = false) Long resolverId
                                               ) {
-        return ResponseEntity.ok(issueService.filter(status, tagId, typeId, text));
+        return ResponseEntity.ok(issueService.filter(status, tagId, typeId, text, creatorId, reviewerId, resolverId));
     }
 
     @PostMapping

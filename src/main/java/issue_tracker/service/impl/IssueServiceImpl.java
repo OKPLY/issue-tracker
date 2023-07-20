@@ -196,7 +196,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Issue> filter(String status, Long tagId, Long typeId, String text) {
+    public List<Issue> filter(String status, Long tagId, Long typeId, String text, Long creatorId, Long reviewerId, Long resolverId) {
         List<Issue> issues = issueRepo.findAll();
         Stream<Issue> issueStream = issues.stream();
 
@@ -214,6 +214,15 @@ public class IssueServiceImpl implements IssueService {
                 return issue.getTitle().toLowerCase().contains(text.toLowerCase()) ||
                         issue.getDescription().toLowerCase().contains(text.toLowerCase());
             });
+
+        if (creatorId != null)
+            issueStream = issueStream.filter((issue) -> issue.getCreator() != null && issue.getCreator().getId().equals(creatorId));
+
+        if (reviewerId != null)
+            issueStream = issueStream.filter((issue) -> issue.getReviewer() != null && issue.getReviewer().getId().equals(reviewerId));
+
+        if (resolverId != null)
+            issueStream = issueStream.filter((issue) -> issue.getResolver() != null && issue.getResolver().getId().equals(resolverId));
 
         return issueStream.sorted((x, y) -> Long.compare(y.getId(), x.getId())).toList();
 

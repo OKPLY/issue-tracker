@@ -43,7 +43,7 @@ public interface IssueService {
 
     List<Issue> getRecentIssues(Integer limit);
 
-    List<Issue> filter(String status, Long tagId, Long typeId, String text);
+    List<Issue> filter(String status, Long tagId, Long typeId, String text, Long creatorId, Long reviewerId, Long resolverId);
 
     Issue close(Long id);
 }
