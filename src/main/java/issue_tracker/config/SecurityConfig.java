@@ -71,6 +71,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE, "/comments")
                                 .hasAuthority("canDeleteComment")
 
+                                .requestMatchers(HttpMethod.POST, "/issues/{id}/assign")
+                                .hasAuthority("canAssignIssue")
+                                .requestMatchers(HttpMethod.POST, "/issues/{id}/resolve")
+                                .hasAuthority("canResolveIssue")
+                                .requestMatchers(HttpMethod.POST, "/issues/{id}/close")
+                                .hasAuthority("canCloseIssue")
+
                                 .requestMatchers(HttpMethod.POST, "/issues")
                                 .hasAuthority("canCreateIssue")
                                 .requestMatchers(HttpMethod.GET, "/issues")
@@ -124,6 +131,10 @@ public class SecurityConfig {
                                 .hasAuthority("canUpdateUser")
                                 .requestMatchers(HttpMethod.DELETE, "/users")
                                 .hasAuthority("canDeleteUser")
+
+
+                                .requestMatchers(HttpMethod.GET, "/logs")
+                                .hasAuthority("canReadLog")
 
                                 .anyRequest()
                                 .authenticated())

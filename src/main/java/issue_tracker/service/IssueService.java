@@ -35,7 +35,6 @@ public interface IssueService {
 
     List<ResolvedDateIssueAggregation> aggregateByResolvedDate();
 
-//    List<StatusCountAggregation> aggregateByStatus();
 
     List<TagCountAggregation> aggregateByTopTag(Integer limit);
 

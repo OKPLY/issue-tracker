@@ -19,7 +19,7 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
     @Query("SELECT new issue_tracker.dto.aggregation.CreatedDateIssueAggregation(i.createdAt, COUNT(i)) FROM Issue AS i  where i.createdAt != NULL GROUP BY i.createdAt")
     List<CreatedDateIssueAggregation> aggregateByCreatedDate();
 
-    @Query("SELECT new issue_tracker.dto.aggregation.ReviewdDateIssueAggregation(i.assignedAt, COUNT(i)) FROM Issue AS i WHERE i.assignedAt != NULL GROUP BY i.assignedAt")
+    @Query("SELECT new issue_tracker.dto.aggregation.ReviewdDateIssueAggregation(i.assignedAt, COUNT(i)) FROM Issue AS i WHERE i.assignedAt != NULL AND i.status != 'CLOSED' GROUP BY i.assignedAt")
     List<ReviewdDateIssueAggregation> aggregateByReviewedDate();
 
     @Query("SELECT new issue_tracker.dto.aggregation.ResolvedDateIssueAggregation(i.resolvedAt, COUNT(i)) FROM Issue AS i WHERE i.resolvedAt != NULL GROUP BY i.resolvedAt")
@@ -28,11 +28,14 @@ public interface IssueRepo extends JpaRepository<Issue, Long> {
 
    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.creator = ?1")
    Long getCreationAggregate(User user);
-    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer = ?1")
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer = ?1 AND i.status != 'CLOSED'")
     Long getReviewAggregate(User user);
 
     @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.resolver = ?1")
     Long getResolveAggregate(User user);
+
+    @Query("SELECT COUNT(i) FROM Issue AS i WHERE i.reviewer = ?1 AND i.status = 'CLOSED'")
+    Long getClosedAggregate(User user);
 
     // TODO: Figure out how to get the nulls
     @Query("SELECT new issue_tracker.dto.aggregation.TypeCountAggregation(i.type.name, COUNT(i)) FROM Issue AS i GROUP BY i.type")

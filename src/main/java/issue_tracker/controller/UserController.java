@@ -45,4 +45,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getRecentUsers(limit == null ? 10 : limit));
     }
 
+    @PostMapping("/setRole/{id}")
+    @Log
+    public ResponseEntity<User> setRole(@PathVariable Long id, @RequestBody List<Long> roleIds) {
+        return ResponseEntity.ok(userService.setRole(id, roleIds));
+    }
+
 }

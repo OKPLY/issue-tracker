@@ -19,4 +19,6 @@ public interface UserService {
     BasicUserDto getCurrentUser();
 
     List<User> getRecentUsers(Integer limit);
+
+    User setRole(Long id, List<Long> roleIds);
 }

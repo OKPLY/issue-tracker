@@ -106,8 +106,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Long created = issueRepo.getCreationAggregate(user);
         Long resolved = issueRepo.getResolveAggregate(user);
         Long reviewed = issueRepo.getReviewAggregate(user);
+        Long closed = issueRepo.getClosedAggregate(user);
 
-        return new CreatedResolvedReviewedAggregate(created, resolved, reviewed);
+        return new CreatedResolvedReviewedAggregate(created, resolved, reviewed, closed);
     }
 
     @Override
@@ -120,6 +121,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> getRecentUsers(Integer limit){
         return userRepository.getRecentUsers().stream().limit(limit).toList();
+    }
+
+    @Override
+    public User setRole(Long id, List<Long> roleIds) {
+
+        User user = getUserById(id);
+        var roles = roleRepo.findAllById(roleIds);
+        user.setRoles(null);
+        userRepository.save(user);
+        user.setRoles(roles);
+        return userRepository.save(user);
+
     }
 }
 
