@@ -25,12 +25,12 @@ public class TypeController {
     private final TypeService typeService;
 
     @GetMapping
-    public ResponseEntity<List<Type>> findAll(){
+    public ResponseEntity<List<Type>> findAll() {
         return ResponseEntity.ok(typeService.findAll());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Type> findById(@PathVariable Long id){
+    public ResponseEntity<Type> findById(@PathVariable Long id) {
         return ResponseEntity.ok(typeService.findById(id));
     }
 
@@ -40,19 +40,19 @@ public class TypeController {
     }
 
     @PostMapping
-    public ResponseEntity<Type> create(@RequestBody CreateTypeDto typeDto){
+    public ResponseEntity<Type> create(@RequestBody CreateTypeDto typeDto) {
         return ResponseEntity.ok(typeService.create(typeDto));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Type> update(@PathVariable Long id, @RequestBody UpdateTypeDto typeDto){
+    public ResponseEntity<Type> update(@PathVariable Long id, @RequestBody UpdateTypeDto typeDto) {
         typeDto.setId(id);
 
         return ResponseEntity.ok(typeService.update(typeDto));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Type> delete(@PathVariable Long id){
+    public ResponseEntity<Type> delete(@PathVariable Long id) {
         return ResponseEntity.ok(typeService.delete(id));
     }
 }

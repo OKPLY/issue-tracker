@@ -38,6 +38,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtAuthFilter securityFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -45,7 +46,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/swagger-ui/**",
+                                .requestMatchers("/swagger-ui.html", "/swagger-ui/**",
                                         "/swagger-resources/*",
                                         "/v3/api-docs/**")
                                 .permitAll()
@@ -138,7 +139,7 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-//    @Bean
+    //    @Bean
 //    public WebSecurityCustomizer webSecurityCustomizer() {
 //        return (web) -> web.ignoring()
 //                .requestMatchers("/v2/api-docs",
@@ -154,7 +155,6 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
-
 
 
 }
