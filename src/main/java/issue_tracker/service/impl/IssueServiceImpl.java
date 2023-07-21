@@ -221,7 +221,7 @@ public class IssueServiceImpl implements IssueService {
             issueStream = issueStream.filter((issue) -> issue.getReviewer() != null && issue.getReviewer().getId().equals(reviewerId));
 
         if (resolverId != null)
-            issueStream = issueStream.filter((issue) -> issue.getReviewer() != null && issue.getResolver().getId().equals(resolverId));
+            issueStream = issueStream.filter((issue) -> issue.getResolver() != null && issue.getResolver().getId().equals(resolverId));
 
         return issueStream.sorted((x, y) -> Long.compare(y.getId(), x.getId())).toList();
 
