@@ -1,7 +1,6 @@
 package issue_tracker.service.impl;
 
 
-
 import issue_tracker.domain.User;
 import issue_tracker.dto.auth.UserRequest;
 import issue_tracker.dto.auth.UserResponse;
@@ -21,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import issue_tracker.utility.JwtUtil;
-
 
 
 @Service
@@ -53,17 +51,17 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userRepo.findByEmail(userDetails.getUsername()).get();
 
-       BasicUserDto basicUser = BasicUserDto.builder()
-               .firstname(user.getFirstname())
-               .lastname(user.getLastname())
-               .profilePicture(user.getProfilePicture())
-               .roles(user.getRoles())
-               .build();
+        BasicUserDto basicUser = BasicUserDto.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .profilePicture(user.getProfilePicture())
+                .roles(user.getRoles())
+                .build();
 
         var userResponse = new UserResponse(accessToken, "refreshToken", basicUser);
         return userResponse;
     }
-
 
 
 }
