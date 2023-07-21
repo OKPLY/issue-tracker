@@ -55,6 +55,7 @@ public class AuthServiceImpl implements AuthService {
                 .id(user.getId())
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
+                .email(user.getEmail())
                 .profilePicture(user.getProfilePicture())
                 .roles(user.getRoles())
                 .build();

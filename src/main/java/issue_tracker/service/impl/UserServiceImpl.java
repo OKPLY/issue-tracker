@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final Util util;
 
 
-
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //            user.addRole(roleRepo.getByName("Creator"));
 //        }
         user.setPassword(pwdEncoder.encode(user.getPassword()));
-        User newUser = modelMapper.map(user,User.class);
+        User newUser = modelMapper.map(user, User.class);
         newUser.addRole(roleRepo.getByName("Creator"));
         return userRepository.save(newUser);
     }
@@ -77,17 +76,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = getUserById(id);
         userRepository.delete(user);
     }
-    public Optional<User> findUserByEmail(String userName){
+
+    public Optional<User> findUserByEmail(String userName) {
         return userRepository.findByEmail(userName);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> opt = findUserByEmail(email);
-        User user= opt.get();
-        if(opt.isEmpty()){
-            throw new UsernameNotFoundException(" user doesn't exist");}
-        UserDetails userDetails= new org.springframework.security.core.userdetails.User(
+        User user = opt.get();
+        if (opt.isEmpty()) {
+            throw new UsernameNotFoundException(" user doesn't exist");
+        }
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
                 user.getRoles().stream()
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public CreatedResolvedReviewedAggregate currentUserAggregate(){
+    public CreatedResolvedReviewedAggregate currentUserAggregate() {
         User user = util.getUserFromContext();
         Long created = issueRepo.getCreationAggregate(user);
         Long resolved = issueRepo.getResolveAggregate(user);
@@ -120,7 +121,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public List<User> getRecentUsers(Integer limit){
+    public List<User> getRecentUsers(Integer limit) {
         return userRepository.getRecentUsers().stream().limit(limit).toList();
     }
 
@@ -137,14 +138,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public BasicUserDto getUserByID(Long id){
+    public BasicUserDto getUserByID(Long id) {
         var user = userRepository.findById(id);
-        if(user.isPresent()) {
+        if (user.isPresent()) {
             return BasicUserDto.builder()
                     .roles(user.get().getRoles())
                     .firstname(user.get().getFirstname())
                     .lastname(user.get().getLastname())
                     .profilePicture(user.get().getProfilePicture())
+                    .email(user.get().getEmail())
                     .id(user.get().getId())
                     .build();
         }
