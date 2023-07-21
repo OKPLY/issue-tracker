@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -133,6 +134,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRoles(roles);
         return userRepository.save(user);
 
+    }
+
+    @Override
+    public BasicUserDto getUserByID(Long id){
+        var user = userRepository.findById(id);
+        if(user.isPresent()) {
+            return BasicUserDto.builder()
+                    .roles(user.get().getRoles())
+                    .firstname(user.get().getFirstname())
+                    .lastname(user.get().getLastname())
+                    .profilePicture(user.get().getProfilePicture())
+                    .id(user.get().getId())
+                    .build();
+        }
+
+        throw new NoSuchElementException("User not found");
     }
 }
 

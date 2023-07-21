@@ -45,6 +45,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getRecentUsers(limit == null ? 10 : limit));
     }
 
+    @GetMapping("/{id}")
+    @Log
+    public ResponseEntity<BasicUserDto> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserByID(id));
+    }
+
     @PostMapping("/setRole/{id}")
     @Log
     public ResponseEntity<User> setRole(@PathVariable Long id, @RequestBody List<Long> roleIds) {

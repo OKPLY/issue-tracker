@@ -21,4 +21,6 @@ public interface UserService {
     List<User> getRecentUsers(Integer limit);
 
     User setRole(Long id, List<Long> roleIds);
+
+    BasicUserDto getUserByID(Long id);
 }
