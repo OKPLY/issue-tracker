@@ -8,5 +8,6 @@ import lombok.Data;
 public class CreateLogDto {
     private String action;
     private String clazz;
+    private Long changeId;
 
 }

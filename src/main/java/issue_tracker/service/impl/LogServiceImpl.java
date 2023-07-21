@@ -40,6 +40,8 @@ public class LogServiceImpl implements LogService {
         log.setAction(creatLog.getAction());
         var split = creatLog.getClazz().split("\\.");
         log.setClazz(split[split.length-1]);
+        log.setChangeId(creatLog.getChangeId());
+
 
         return logRepo.save(log);
     }

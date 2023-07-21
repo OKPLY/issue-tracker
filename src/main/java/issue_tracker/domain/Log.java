@@ -19,6 +19,9 @@ public class Log {
     @Column(name = "clazz")
     private String clazz;
 
+    @Column(name = "change_id")
+    private Long changeId;
+
     @Column(
             name = "created_at",
             nullable = false
