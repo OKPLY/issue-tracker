@@ -66,7 +66,7 @@ public class IssueController {
     }
     @GetMapping("/aggregate/all-date")
     @Log
-    public ResponseEntity<Map<LocalDate, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
+    public ResponseEntity<List<Map.Entry<LocalDate, CreatedResolvedReviewedAggregate>>> getAllDateAggregation() {
         return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
     }
 

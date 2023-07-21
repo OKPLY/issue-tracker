@@ -15,10 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
@@ -149,7 +147,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Map<LocalDate, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate() {
+    public List<Map.Entry<LocalDate, CreatedResolvedReviewedAggregate>> createdResolvedReviewedDateAggregate() {
         var createdAggregate = issueRepo.aggregateByCreatedDate();
         var resolvedAggregate = issueRepo.aggregateByResolvedDate();
         var reviewedAggregate = issueRepo.aggregateByReviewedDate();
@@ -157,6 +155,8 @@ public class IssueServiceImpl implements IssueService {
         Map<LocalDate, CreatedResolvedReviewedAggregate> data = new HashMap<>();
         createdAggregate.parallelStream().forEach((item) -> {
             var time = item.getCreatedAt().toLocalDate();
+            if(ChronoUnit.DAYS.between(time, LocalDate.now()) > 30)
+                return;
 
             if (!data.containsKey(time)){
                 var aggregate = new CreatedResolvedReviewedAggregate();
@@ -169,6 +169,8 @@ public class IssueServiceImpl implements IssueService {
 
         resolvedAggregate.parallelStream().forEach((item) -> {
             var time = item.getResolvedAt().toLocalDate();
+            if(ChronoUnit.DAYS.between(time, LocalDate.now()) > 30)
+                return;
 
             if (!data.containsKey(time)) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
@@ -181,6 +183,8 @@ public class IssueServiceImpl implements IssueService {
 
         reviewedAggregate.parallelStream().forEach((item) -> {
             var time = item.getReviewedAt().toLocalDate();
+            if(ChronoUnit.DAYS.between(time, LocalDate.now()) > 30)
+                return;
 
             if (!data.containsKey(time)) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
@@ -191,9 +195,10 @@ public class IssueServiceImpl implements IssueService {
             data.get(time).setReviewed(item.getAmount() + data.get(time).getReviewed());
         });
 
-        System.out.println(data);
+        List<Map.Entry<LocalDate, CreatedResolvedReviewedAggregate>> entries = new ArrayList<>(data.entrySet());
+        entries.sort((o1, o2) -> o2.getKey().compareTo(o1.getKey()));
 
-        return data;
+        return entries;
     }
 
     @Override
