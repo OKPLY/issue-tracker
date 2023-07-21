@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class BasicUserDto {
+    private Long id;
     private String firstname;
     private String lastname;
     private String profilePicture;

@@ -49,7 +49,6 @@ public class User {
             nullable = false
     )
     @CreationTimestamp
-    @JsonIgnore
     private LocalDateTime createdAt;
 
     @Column(
@@ -80,7 +79,8 @@ public class User {
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
-     public void addRole(Role role){
-         roles.add(role);
-     }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
 }
