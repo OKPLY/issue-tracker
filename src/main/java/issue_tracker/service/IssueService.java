@@ -6,6 +6,7 @@ import issue_tracker.dto.issue.AssignIssueDto;
 import issue_tracker.dto.issue.CreateIssueDto;
 import issue_tracker.dto.issue.UpdateIssueDto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public interface IssueService {
 
     List<TagCountAggregation> aggregateByTopTag(Integer limit);
 
-    Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate();
+    Map<LocalDate, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate();
 
     List<Issue> getRecentIssues(Integer limit);
 

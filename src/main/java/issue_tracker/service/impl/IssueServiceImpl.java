@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -148,40 +149,46 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Map<LocalDateTime, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate() {
+    public Map<LocalDate, CreatedResolvedReviewedAggregate> createdResolvedReviewedDateAggregate() {
         var createdAggregate = issueRepo.aggregateByCreatedDate();
         var resolvedAggregate = issueRepo.aggregateByResolvedDate();
         var reviewedAggregate = issueRepo.aggregateByReviewedDate();
 
-        Map<LocalDateTime, CreatedResolvedReviewedAggregate> data = new HashMap<>();
+        Map<LocalDate, CreatedResolvedReviewedAggregate> data = new HashMap<>();
         createdAggregate.parallelStream().forEach((item) -> {
-            if (!data.containsKey(item.getCreatedAt())) {
+            var time = item.getCreatedAt().toLocalDate();
+
+            if (!data.containsKey(time)){
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setCreated(item.getAmount());
-                data.put(item.getCreatedAt(), aggregate);
+                data.put(time, aggregate);
                 return;
             }
-            data.get(item.getCreatedAt()).setCreated(item.getAmount() + data.get(item.getCreatedAt()).getCreated());
+            data.get(time).setCreated(item.getAmount() + data.get(time).getCreated());
         });
 
         resolvedAggregate.parallelStream().forEach((item) -> {
-            if (!data.containsKey(item.getResolvedAt())) {
+            var time = item.getResolvedAt().toLocalDate();
+
+            if (!data.containsKey(time)) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setResolved(item.getAmount());
-                data.put(item.getResolvedAt(), aggregate);
+                data.put(time, aggregate);
                 return;
             }
-            data.get(item.getResolvedAt()).setResolved(item.getAmount() + data.get(item.getResolvedAt()).getResolved());
+            data.get(time).setResolved(item.getAmount() + data.get(time).getResolved());
         });
 
         reviewedAggregate.parallelStream().forEach((item) -> {
-            if (!data.containsKey(item.getReviewedAt())) {
+            var time = item.getReviewedAt().toLocalDate();
+
+            if (!data.containsKey(time)) {
                 var aggregate = new CreatedResolvedReviewedAggregate();
                 aggregate.setReviewed(item.getAmount());
-                data.put(item.getReviewedAt(), aggregate);
+                data.put(time, aggregate);
                 return;
             }
-            data.get(item.getReviewedAt()).setReviewed(item.getAmount() + data.get(item.getReviewedAt()).getReviewed());
+            data.get(time).setReviewed(item.getAmount() + data.get(time).getReviewed());
         });
 
         System.out.println(data);

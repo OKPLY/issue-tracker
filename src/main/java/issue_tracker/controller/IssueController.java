@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,7 @@ public class IssueController {
     }
     @GetMapping("/aggregate/all-date")
     @Log
-    public ResponseEntity<Map<LocalDateTime, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
+    public ResponseEntity<Map<LocalDate, CreatedResolvedReviewedAggregate>> getAllDateAggregation() {
         return ResponseEntity.ok(issueService.createdResolvedReviewedDateAggregate());
     }
 
