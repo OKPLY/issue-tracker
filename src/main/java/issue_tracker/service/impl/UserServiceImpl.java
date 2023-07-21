@@ -58,17 +58,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long id, CreateUser user) {
 
         User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(pwdEncoder.encode(user.getPassword()));
-            // To change profile picture
+            existingUser.setFirstname(user.getFirstname());
+            existingUser.setLastname(user.getLastname());
             existingUser.setProfilePicture(user.getProfilePicture());
             return userRepository.save(existingUser);
         }
-        return null;
+
+        throw new NoSuchElementException("User Not Found.");
     }
 
     @Override

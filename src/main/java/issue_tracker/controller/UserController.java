@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import issue_tracker.aspect.annotation.Log;
 import issue_tracker.domain.User;
 import issue_tracker.dto.aggregation.CreatedResolvedReviewedAggregate;
+import issue_tracker.dto.auth.CreateUser;
 import issue_tracker.dto.user.BasicUserDto;
 import issue_tracker.service.UserService;
 import issue_tracker.utility.Util;
@@ -55,6 +56,12 @@ public class UserController {
     @Log
     public ResponseEntity<User> setRole(@PathVariable Long id, @RequestBody List<Long> roleIds) {
         return ResponseEntity.ok(userService.setRole(id, roleIds));
+    }
+
+    @PutMapping("/{id}")
+    @Log
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody CreateUser user) {
+        return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
 }
