@@ -23,11 +23,12 @@ public class UserController {
 
     private final UserService userService;
     private final Util util;
-   @GetMapping("/aggregate")
-   @Log
+
+    @GetMapping("/aggregate")
+    @Log
     public ResponseEntity<CreatedResolvedReviewedAggregate> aggregate() {
-       return ResponseEntity.ok(userService.currentUserAggregate());
-   }
+        return ResponseEntity.ok(userService.currentUserAggregate());
+    }
 
     @Log
     @GetMapping("/current")
