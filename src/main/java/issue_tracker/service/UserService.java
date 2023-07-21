@@ -11,7 +11,7 @@ public interface UserService {
     List<User> getAllUsers();
     User getUserById(Long id);
     User createUser(CreateUser user);
-    User updateUser(Long id, User user);
+    User updateUser(Long id, CreateUser user);
     void deleteUser(Long id);
 
     CreatedResolvedReviewedAggregate currentUserAggregate();
